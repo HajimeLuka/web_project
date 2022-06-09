@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Account Page</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/stylesheets/style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic%20SC">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%20Condensed">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&display=swap">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="/javascripts/event.js" defer></script>
+        <script src="javascripts/page.js"></script>
+    </head>
+
+    <body>
+        <div class="top-taskbar">
+            <a href="/"><img alt src="/images/home_button.png" id="home_btn"/></a>
+            <a href="accpage.html"><img alt src="/images/account.png" id="acc_btn"/></a>
+            <a href="login.html"><img alt src="/images/logout.png" id="logout_btn"/></a>
+            <div id="title">ACCOUNT PAGE</div>
+        </div>
+
+
+        <div class="userinfo">
+        <div class="tab">
+            <button class="tablinks" onclick="accpage(event, 'edit_profile')" id="defaultOpen">Edit Profile</button>
+            <button class="tablinks" onclick="accpage(event, 'change_password')">Change Password</button>
+            <button class="tablinks" onclick="accpage(event, 'view_events')">View Events</button>
+          </div>
+
+          <div id="edit_profile" class="tabcontent">
+                <div class="#user-details"></div>
+                <h2>First name:
+                <input type="text" class="change_details" name="first_name"></h3>
+
+                <h2>Last name:
+                <input type="text" class="change_details" name="last_name"></h3>
+
+                <h2>Username:
+                <input type="text" class="change_details" name="guests"></h3>
+
+                <h2>Email:
+                <input type="email" class="change_details" name="email"></h3>
+
+                <h2>Contact number:
+                <input type="text" class="change_details" name="contact"></h3>
+
+                <h2>Home:
+                <input type="text" class="change_details" name="location"></h3>
+
+                <input type="submit" id="submit" value="Submit changes">
+                <br><br>
+
+          </div>
+
+          <div id="change_password" class="tabcontent">
+            <div class="#user-details"></div>
+            <h2>Old Password:
+            <input type="text" class="change_details" name="old_password"></h3>
+
+            <h2>New Password:
+            <input type="text" class="change_details" name="new_password"></h3>
+
+            <h2>Confirm New Password:
+            <input type="text" class="change_details" name="new_password"></h3>
+
+            <input type="submit" id="submit" value="Submit changes">
+                <br><br>
+          </div>
+
+          <div id="view_events" class="tabcontent">
+
+          </div>
+        </div>
+        </body>

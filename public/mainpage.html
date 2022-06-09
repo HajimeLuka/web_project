@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Main Page</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/stylesheets/style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic%20SC">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%20Condensed">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&display=swap">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="javascripts/page.js"></script>
+    </head>
+
+    <body>
+        <div class="top-taskbar">
+            <a href="/"><img alt src="/images/home_button.png" id="home_btn"/></a>
+            <a href="accpage.html"><img alt src="/images/account.png" id="acc_btn"/></a>
+            <img alt src="/images/logout.png" id="logout_btn" onclick="logout()"/>
+            <div id="title">EVENT PLANNER</div>
+        </div>
+
+        <div class="side-taskbar">
+            <p id="dashboard">DASHBOARD</p>
+            <button type="button" id="create_event"><span>New</span></button>
+            <input type="text" id="searchbox" placeholder="Search"><br><br>
+            <div class="container">
+                <div class="icon"></div>
+                <div class="writing">Event 1 </div>
+            </div>
+            <hr/>
+        </div>
+
+        <div class="main">
+            <h1 class="new_event">NEW EVENT</h1>
+            <div class="event">
+                <span>Event name: </span>
+                <input type="text" class="event_details" name="event" required><br><br>
+
+                <span>Number of guests (optional): </span>
+                <input type="text" class="event_details" name="guests"><br><br>
+
+                <span>Date: </span>
+                <input type="date" class="event_details" name="date"><br><br>
+
+                <span>Time: </span>
+                <input type="time" class="event_details" name="time"><br><br>
+
+                <span>Location: </span>
+                <input type="text" class="event_details" name="location" required><br><br>
+
+                <label for="Category">Category:</label>
+                <select class="event_details" name="Category">
+                <option value="Birthday">Birthday</option>
+                <option value="Work">Work</option>
+                <option value="Casual">Casual</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Drinks">Drinks</option>
+                <option value="Formal">Formal</option>
+                <option value="Other">Other</option>
+                </select>
+                <br><br>
+
+                <span>Choose color theme: </span>
+                <input type="color" class="event_details" name="colour"><br><br>
+
+                <input type="button" id="submit" value="SUBMIT!" onclick="send()">
+
+            </div>
+            <br/>
+            <h1 class="new_event">CALENDAR</h1>
+            <div class="detail">
+                <iframe src="https://calendar.google.com/calendar/embed?src=example%40gmail.com&ctz=Australia%2FAdelaide" id="calendar"></iframe>
+            </div>
+
+        </div>
+
+
+
+
+
+
+    </body>
+</html>
