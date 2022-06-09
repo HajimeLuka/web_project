@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Main Page</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/stylesheets/style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic%20SC">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%20Condensed">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&display=swap">
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="javascripts/page.js"></script>
+        <script src="/javascripts/event.js" defer></script>
+    </head>
+
+    <body>
+        <div class="top-taskbar">
+            <a href="/"><img alt src="/images/home_button.png" id="home_btn"/></a>
+            <a href="accpage.html"><img alt src="/images/account.png" id="acc_btn"/></a>
+            <img alt src="/images/logout.png" id="logout_btn" onclick="logout()"/>
+            <div id="title">EVENT PLANNER</div>
+        </div>
+
+        <div class="side-taskbar">
+            <p id="dashboard">DASHBOARD</p>
+            <button class="tablinks" onclick="accpage(event, 'new_event')" id="defaultOpen" id=""  >New</button><br>
+
+            <!-- <div>
+                <input type="button" onclick="myFunction()" value="Reset form">
+            </div> -->
+            <input type="text" id="searchbox" placeholder="Search"><br><br>
+            <div class="container">
+                <div class="icon"></div>
+                <div class="tablinks" onclick="accpage(event, 'event1')" >Event 1 </div>
+            </div>
+            <hr/>
+            <div class="container">
+                <div class="icon"></div>
+                <div class="tablinks" onclick="accpage(event, 'event2')" > Event 2 </div>
+                <br></div>
+                <hr/>
+            <div class="container">
+                <div class="icon"></div>
+                <div class="tablinks" onclick="accpage(event, 'event3')" > Event 3 </div>
+            </div>
+            <hr/>
+            <br>
+
+            <div id="text"></div>
+        </div>
+
+        <div class="main">
+            <h1 class="new_event">EVENT</h1>
+            <form id="event1" class="tabcontent">
+                <br>
+                <span>Event name: </span><br><br>
+                <span>Number of guests (optional): </span><br><br>
+
+                <span>Date: </span>
+                <br><br>
+
+                <span>Time: </span>
+                <br><br>
+
+                <span>Location: </span>
+                <br><br>
+
+                <label for="Category">Category:</label>
+
+                <br><br>
+
+                <span>Choose color theme: </span>
+                <br><br>
+
+            </form>
+            <form id="event2" class="tabcontent">
+                <br>
+                <span>Event name 2: </span>
+                <br><br>
+
+                <span>Number of guests (optional): </span>
+
+                <span>Date: </span>
+                <br><br>
+
+                <span>Time: </span>
+                <br><br>
+
+                <span>Location: </span>
+                <br><br>
+
+                <label for="Category">Category:</label>
+
+                <br><br>
+
+                <span>Choose color theme: </span>
+                <br><br>
+
+            </form>
+            <form id="event3" class="tabcontent">
+                <br>
+                <span>Event name 3: </span>
+                <br><br>
+
+                <span>Number of guests (optional): </span>
+
+                <span>Date: </span>
+                <br><br>
+
+                <span>Time: </span>
+                <br><br>
+
+                <span>Location: </span>
+                <br><br>
+
+                <label for="Category">Category:</label>
+
+                <br><br>
+
+                <span>Choose color theme: </span>
+                <br><br>
+
+            </form>
+            <form id="new_event" class="tabcontent">
+                <br>
+                <span>Event name: </span>
+                <input type="text" class="event_details" name="event" required><br><br>
+
+                <span>Number of guests (optional): </span>
+                <input type="text" class="event_details" name="guests"><br><br>
+
+                <span>Date: </span>
+                <input type="date" class="event_details" name="date"><br><br>
+
+                <span>Time: </span>
+                <input type="time" class="event_details" name="time"><br><br>
+
+                <span>Location: </span>
+                <input type="text" class="event_details" name="location" required><br><br>
+
+                <label for="Category">Category:</label>
+                <select class="event_details" name="Category">
+                <option value="Birthday">Birthday</option>
+                <option value="Work">Work</option>
+                <option value="Casual">Casual</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Drinks">Drinks</option>
+                <option value="Formal">Formal</option>
+                <option value="Other">Other</option>
+                </select>
+                <br><br>
+
+                <span>Choose color theme: </span>
+                <input type="color" class="event_details" name="colour"><br><br>
+
+                <input type="submit" id="submit" value="SUBMIT!" onclick="send()"><br>
+                <br>
+            </form>
+            <br><br>
+
+            <br/><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <h1 class="new_event">
+                CALENDAR
+            <div class="detail">
+
+                <iframe src="https://calendar.google.com/calendar/embed?src=example%40gmail.com&ctz=Australia%2FAdelaide" id="calendar"></iframe>
+
+            </h1></div>
+
+        </div>
+
+
+
+    </body>
+</html>
