@@ -1,5 +1,5 @@
 -- DATABASE FOR LOGIN DETAILS FOR USERS
-
+DROP DATABASE IF EXISTS `web_app`;
 CREATE DATABASE web_app;
 USE web_app;
 
@@ -17,9 +17,18 @@ CREATE TABLE user (
 
     PRIMARY KEY(ID)
 
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--Adding new user
 INSERT INTO user VALUES (1, 'HajimeLuka', 'Anne', 'Vu','0476226249','anneliese.vu@outlook.com', '123');
+
+--updating users
+UPDATE user SET username = newUsername WHERE ID = userId;
+UPDATE user SET password = newPassword WHERE ID = userId;
+UPDATE user SET first_name = newFirst WHERE ID = userId;
+UPDATE user SET last_name = newLast WHERE ID = userId;
+UPDATE user SET mobile = newMobile WHERE ID = userId;
+UPDATE user SET email = newEmail WHERE ID = userId;
 
 -- --------------THIS CODE DOES NOT WORK------------------
 -- ADD TO USER TABLE WHEN NEW USER IS CREATED

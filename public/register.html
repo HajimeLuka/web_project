@@ -19,10 +19,12 @@
     <body>
         <div id="auth">
             <div id="title">Event Planner</div>
-            <input type="text" class="textbox" name="name" placeholder="Your name" required/>
-            <input type="text" class="textbox" name="username" placeholder="Username" required/>
-            <input type="password" class="textbox" name="password" placeholder="Password" required/>
-            <button id="enter_button" onclick="signup()">Sign up</button>
+            <form>
+                <input type="text" class="textbox" id="first_name" placeholder="Your first name" required/>
+                <input type="text" class="textbox" id="username" placeholder="Username" required/>
+                <input type="password" class="textbox" id="password" placeholder="Password" required/>
+                <button id="enter_button" onclick="signup()">Sign up</button>
+            </form>
         </div>
 
         <footer class="site-footer">

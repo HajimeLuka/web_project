@@ -5,24 +5,46 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/signup', function(req, res, next) {
-  console.log(req.body);
+router.post('/signup', function(req, res) {
+  if ('first_name' in req.body && 'username' in req.body && 'password' in req.body){
+    req.pool.getConnection(function(error, connection){
+      if (error){
+        console.log(error);
+        res.sendStatus(401);
+        return;
+      }
+      let query = "INSERT INTO user (first_name, username, password) VALUES (?, ?, ?);";
+      connection.query(query, [req.body.first_name, req.body.username, req.body.password, req.body.username, req.body.password], function(error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(401);
+          return;
+        }
 
-  if ('username' in req.body && 'name' in req.body && 'password' in req.body) {
-    if(req.body.username in users){
-      console.log('user exists');
-      res.sendStatus(403);
-    } else {
-      users[req.body.username] = { username: req.body.username, name: req.body.name, password: req.body.password };
-      console.log("User "+req.body.username+" created");
-      req.session.user = users[req.body.username];
-      res.sendStatus(200);
-    }
+        let query = "SELECT * FROM user WHERE username = ? AND password = ?;";
+        connection.query(query, [req.body.username, req.body.password], function(error, rows, fields) {
+          connection.release();
+          if (error) {
+            console.log(error);
+            res.sendStatus(500);
+            return;
+          }
+          if (rows.length > 0) {
+            console.log('bad login');
+            req.session.user = rows[0];
+            res.sendStatus(401);
+          } else {
+            console.log('success');
+            res.sendStatus(200);
+          }
+        });
+
+        });
+    });
   } else {
     console.log('bad request');
     res.sendStatus(400);
   }
-
 });
 
 router.post('/login', function(req, res) {
@@ -86,4 +108,90 @@ router.post('/logout', function(req, res, next) {
 });
 
 
+// ahsadhfashfshafhafs
+/*router.post('/updateDetails', function(req, res) {
+
+  var un = req.body.username;
+  var f = req.body.firstName;
+  var l = req.body.lastName;
+  var e = req.body.email;
+  var m = req.body.mobile;
+
+  profile.push(un,f,l,e,m,p);
+
+req.pool.getConnection(function (error, connection){
+
+  if (error){
+    res.sendStatus(500);
+    return;
+  }
+
+  var query = "UPDATE user SET username = ?, first_name = ?, last_name = ?, email = ?, mobile = ?, WHERE email = ?;";
+
+  connection.query(query, profile, function(error, rows, fields){
+    connection.release();
+    console.log(error);
+
+    if (error){
+      res.sendStatus(500);
+      return;
+    }
+    res.send();
+  });
+
+});
+res.send();
+
+});
+
+router.post('/updatePassword', function(req, res) {
+  var p = req.body.password;
+
+  req.pool.getConnection(function (error, connection){
+
+    if (error){
+      res.sendStatus(500);
+      return;
+    }
+
+    var query = "UPDATE user SET password = ? WHERE email = ?;";
+
+    connection.query(query, profile, function(error, rows, fields){
+      connection.release();
+      console.log(error);
+
+      if (error){
+        res.sendStatus(500);
+        return;
+      }
+      res.send();
+    });
+
+  });
+  res.send();
+
+
+});
+
+router.get('/getDetails', function(req, res){
+  req.pool.getConnection(function(error, connection){
+    if (error) {
+      res.sendStatus(500);
+      return;
+    }
+    var query = "SELECT * FROM user WHERE email = ?;";
+
+    connection.query(query, globalUserEmail, function(err, rows, fields){
+      connection.release();
+      console.log('rows');
+      console.log(rows);
+      if (error){
+        res.sendStatus(500);
+        return;
+      }
+      res.send(rows);
+    });
+  });
+});
+*/
 module.exports = router;
