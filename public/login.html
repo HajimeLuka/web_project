@@ -13,23 +13,30 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%20Condensed">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&display=swap">
 
-        <!--link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-        <script src="https://apis.google.com/js/api:client.js"></script-->
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+        <script src="https://apis.google.com/js/api:client.js"></script>
       </head>
 
     <body>
         <div id="auth">
             <div id="title">Event Planner</div>
             <form>
+                <!-- user can input their details in a textbox -->
+                <!-- show text "username" and "password" where users should put resepctive details -->
                 <input type="text" class="textbox" id="username" placeholder="Username" required/>
                 <input type="password" class="textbox" id="password" placeholder="Password" required/>
-                <button id="enter_button" onclick="login()">Login</button>
+
+                <!-- user can choose whether to login as an admin or a user (system will check whether or not they are eligable to login as admin) -->
+                <button class="enter_button" onclick="login('user')">Login</button>
+                <button class="enter_button" onclick="login('admin')">Login (Admin)</button>
+                <!-- option to sign in with google -->
             </form>
             <div class="g-signin2" data-onsuccess="onSignIn" data-width="250" data-height="40" data-longtitle="true" data-redirecturi="/"></div>
         </div>
 
         <footer class="site-footer">
             <div id="footer-content">
+                <!-- option to create an account if user does not already have one -->
                 <p>Don't have an account? <a href="register.html">Sign up here!</a> </p>
             </div>
         </footer>

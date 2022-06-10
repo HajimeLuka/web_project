@@ -2,44 +2,96 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.redirect('/login.html');  // user is directed to the login page as the first page
 });
 
-router.post('/signup', function(req, res) {
-  if ('first_name' in req.body && 'username' in req.body && 'password' in req.body){
+router.post('/login', function(req, res) {
+
+  // saving inputted values in variables
+  let username = req.body.username;
+  let password = req.body.password;
+  let is_admin = req.body.is_admin;
+
+  // only works if both fields are filled in
+  if (username && password) {
     req.pool.getConnection(function(error, connection){
       if (error){
         console.log(error);
-        res.sendStatus(401);
+        res.sendStatus(500);
         return;
       }
-      let query = "INSERT INTO user (first_name, username, password) VALUES (?, ?, ?);";
-      connection.query(query, [req.body.first_name, req.body.username, req.body.password, req.body.username, req.body.password], function(error, rows, fields) {
+
+      // putting values into the query
+      let query = "SELECT * FROM user WHERE username = ? AND password = ? AND is_admin = ?;";
+      connection.query(query, [username, password, is_admin], function(error, rows, fields) {
+        connection.release();
         if (error) {
           console.log(error);
-          res.sendStatus(401);
+          res.sendStatus(500);
           return;
         }
 
-        let query = "SELECT * FROM user WHERE username = ? AND password = ?;";
-        connection.query(query, [req.body.username, req.body.password], function(error, rows, fields) {
-          connection.release();
-          if (error) {
-            console.log(error);
-            res.sendStatus(500);
-            return;
-          }
-          if (rows.length > 0) {
-            console.log('bad login');
-            req.session.user = rows[0];
-            res.sendStatus(401);
-          } else {
-            console.log('success');
-            res.sendStatus(200);
-          }
-        });
+        if (rows.length > 0) {  // if such a user exists
+          console.log('Successful login');
+          req.session.user = rows[0];
+          res.sendStatus(200);
+        } else {
+          console.log('Bad login');
+          res.sendStatus(401);
+        }
+      });
+    });
 
-        });
+  } else {
+    console.log('Bad request');
+     res.sendStatus(400);
+  }
+});
+
+router.post('/signup', function(req, res) {
+
+   // saving inputted values in variables
+  let username = req.body.username;
+  let first_name = req.body.first_name;
+  let last_name = req.body.last_name;
+  let mobile = req.body.mobile;
+  let email = req.body.email;
+  let password = req.body.password;
+
+  // only works if all fields are filled in
+  if (username && first_name && last_name && mobile && email && password){
+    req.pool.getConnection(function(error, connection){
+      if (error){
+        console.log(error);
+        res.sendStatus(500);
+        return;
+      }
+      let query = "SELECT * FROM user WHERE username = ?;"; // cannot have duplicate usernames
+      connection.query(query, [username], function(error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+          return;
+        }
+        if (rows.length > 0) {
+          console.log('User already exists');
+          res.sendStatus(401);
+        } else {
+          // putting values into corresponding query fields
+          let query = "INSERT INTO user (username, first_name, last_name, mobile, email, password, is_admin) VALUES (?, ?, ?, ?, ?, ?, 0);";
+          connection.query(query, [username, first_name, last_name, mobile, email, password], function(error, rows, fields) {
+            connection.release();
+            if (error) {
+              console.log(error);
+              res.sendStatus(500);
+              return;
+            } else {
+              console.log('Successful sign up');
+              res.sendStatus(200);
+            }
+          });
+        }
+      });
     });
   } else {
     console.log('bad request');
@@ -47,151 +99,192 @@ router.post('/signup', function(req, res) {
   }
 });
 
-router.post('/login', function(req, res) {
-  if ('username' in req.body && 'password' in req.body){
-    req.pool.getConnection(function(error, connection){
-      if (error){
-        console.log(error);
-        res.sendStatus(401);
-        return;
-      }
-      let query = "SELECT * FROM user WHERE username = ? AND password = ?;";
-      connection.query(query, [req.body.username, req.body.password], function(error, rows, fields) {
-        connection.release();
-        if (error) {
-          console.log(error);
-          res.sendStatus(401);
-          return;
-        }
-        if (rows.length > 0) {
-          console.log('success');
-          req.session.user = rows[0];
-          res.sendStatus(200);
-        } else {
-          console.log('bad login');
-          res.sendStatus(401);
-        }
-      });
-    });
-  } else {
-    console.log('bad request');
-     res.sendStatus(400);
-  }
-});
 
-router.post('/combine', function(req, res){
-  var stringRes = '';
-  var n = req.body.name;
-  var num = req.body.guests;
-  var d = req.body.date;
-  var t = req.body.time;
-  var l = req.body.location;
-
-  res.push("Event: ", n, "\n");
-  res.push("Number of Guests: ", num, "\n");
-  res.push("Date: ", d, "\n");
-  res.push("Time: ", t, "\n");
-  res.push("Location: ", l, "\n");
-
-  for (let i=0; i<res.length; i++){
-    stringRes = stringRes + res[i];
-  }
-  res.send(stringRes);
-});
-
+// delete user in session
 router.post('/logout', function(req, res, next) {
   if('user' in req.session){
     delete req.session.user;
   }
   res.end();
-
 });
 
+router.post('/add_event', function(req, res) {
 
-// ahsadhfashfshafhafs
-/*router.post('/updateDetails', function(req, res) {
+  // storing inputted values
+  let event = req.body.event;
+  let guests = req.body.guests;
+  let date = req.body.date;
+  let time = req.body.time;
+  let location = req.body.location;
+  let category = req.body.category;
+  let color = req.body.color;
 
-  var un = req.body.username;
-  var f = req.body.firstName;
-  var l = req.body.lastName;
-  var e = req.body.email;
-  var m = req.body.mobile;
+  // checking if all fields are inputted
+  if (event && guests && date && time && location && category && color) {
+    req.pool.getConnection(function(error, connection) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+        return;
+      }
 
-  profile.push(un,f,l,e,m,p);
-
-req.pool.getConnection(function (error, connection){
-
-  if (error){
-    res.sendStatus(500);
-    return;
+      // inserting into database with the corresponding values
+      let query = "INSERT INTO event_details (event, guests, date, time, location, category, color) VALUES (?, ?, ?, ?, ?, ?, ?);";
+      connection.query(query, [event, guests, date, time, location, category, color], function(error, rows, fields) {
+        connection.release();
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+          return;
+        } else {
+          console.log('Successful event creation');
+          res.send();
+        }
+      });
+    });
+  } else {
+    console.log('Bad request');
+    res.sendStatus(400);
   }
-
-  var query = "UPDATE user SET username = ?, first_name = ?, last_name = ?, email = ?, mobile = ?, WHERE email = ?;";
-
-  connection.query(query, profile, function(error, rows, fields){
-    connection.release();
-    console.log(error);
-
-    if (error){
-      res.sendStatus(500);
-      return;
-    }
-    res.send();
-  });
-
-});
-res.send();
-
 });
 
-router.post('/updatePassword', function(req, res) {
-  var p = req.body.password;
+
+
+
+//ADMIN STUFF
+
+//from an admin page, set other users as admins
+router.post('/givePerms', function(req, res) {
+
+  var ID = req.body.ID;
 
   req.pool.getConnection(function (error, connection){
-
     if (error){
+      console.log(error);
       res.sendStatus(500);
-      return;
+      return
     }
 
-    var query = "UPDATE user SET password = ? WHERE email = ?;";
-
-    connection.query(query, profile, function(error, rows, fields){
+    // sets the user as admin
+    let query = "UPDATE user SET is_admin = 1 WHERE ID = ?;";
+    connection.query(query, [ID], function(error, rows, fields){
       connection.release();
-      console.log(error);
-
-      if (error){
+      if (error) {
+        console.log(error);
         res.sendStatus(500);
         return;
       }
       res.send();
     });
-
   });
-  res.send();
-
-
 });
 
-router.get('/getDetails', function(req, res){
-  req.pool.getConnection(function(error, connection){
-    if (error) {
-      res.sendStatus(500);
-      return;
-    }
-    var query = "SELECT * FROM user WHERE email = ?;";
+// changing a user's password from the admin page
+router.post('/changePassAdmin', function(req, res) {
+  var ID = req.body.ID;
+  var pass1 = req.body.new_password1;
+  var pass2 = req.body.new_password2;
 
-    connection.query(query, globalUserEmail, function(err, rows, fields){
+  // checks if the confirmed password field matches the new password field, returns error if it doesn't
+  if (pass1 != pass2){
+    res.sendStatus(500);
+    return;
+  }
+
+  req.pool.getConnection(function (error, connection){
+    if (error){
+      console.log(error);
+      res.sendStatus(500);
+      return
+    }
+
+    // updates password for the specified user by their user id
+    let query = "UPDATE user SET password = ? WHERE ID = ?;";
+    connection.query(query, [pass1, ID], function(error, rows, field){
       connection.release();
-      console.log('rows');
-      console.log(rows);
       if (error){
+        console.log(error);
         res.sendStatus(500);
         return;
       }
-      res.send(rows);
+      res.send();
+
     });
   });
+
 });
-*/
+
+//create token
+router.post('/create-tokens'), async (req, res, next) => {
+  try{
+  }catch (error){
+      next (error)
+    }
+
+}
+
+router.post('/updateDetailsAdmin', function(req, res) {
+
+  var ID = req.body.ID;
+  var username = req.body.username;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var email = req.body.email;
+  var mobile = req.body.mobile;
+
+  req.pool.getConnection(function (error, connection) {
+    if (error){
+      console.log(error);
+      res.sendStatus(500);
+      return;
+    }
+
+      let query = "UPDATE user SET username = ?, first_name = ?, last_name = ?, email = ?, mobile = ?, WHERE email = ?;";
+
+      connection.query(query, [username, firstName, lastName, email, mobile], function(error, rows, field){
+        connection.release();
+        console.log(error);
+
+        if (error){
+          res.sendStatus(500);
+          return;
+        }
+
+        res.send();
+
+      });
+    });
+
+});
+// create event
+/*
+router.post('/create-event', async (req, res, next) =>{
+  try{
+      // declared variables
+      const{event, guests, date, time, location} = req.body
+
+      oauth2Client.setCredentials({refreshtoken: REFRESH_TOKEN})
+      // google calendar
+      const calendar = google.calendar('v3')
+      // insert into calandar
+      const response = await calandar.events.insert({
+          auth: oauth2Client,
+          calendarID: 'primary',
+          requestBody: {
+              event: event,
+               guests: guests,
+               date: date,
+               time: time,
+               location: location
+               start: {
+                  dateTime: new Date(startDateTime),
+               },
+          },
+      })
+      res.send(response)
+  } catch (error){
+      next (error)
+  }
+});*/
+
 module.exports = router;

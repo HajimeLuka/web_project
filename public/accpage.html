@@ -13,65 +13,97 @@
     </head>
 
     <body>
+      <!-- top taskbar -->
         <div class="top-taskbar">
-            <a href="/"><img alt src="/images/home_button.png" id="home_btn"/></a>
+          <!-- home button -->
+            <a href="/homepage.html"><img alt src="/images/home_button.png" id="home_btn"/></a>
+            <!-- account button -->
             <a href="accpage.html"><img alt src="/images/account.png" id="acc_btn"/></a>
-            <a href="login.html"><img alt src="/images/logout.png" id="logout_btn"/></a>
+            <!-- logout button which ends users session using the logout function which is triggered when the button is pressed-->
+            <img alt src="/images/logout.png" id="logout_btn" onclick="logout()"/>
             <div id="title">ACCOUNT PAGE</div>
         </div>
 
 
         <div class="userinfo">
+          <!-- create tabs in class "tabs" -->
         <div class="tab">
             <button class="tablinks" onclick="accpage(event, 'edit_profile')" id="defaultOpen">Edit Profile</button>
+            <button class="tablinks" onclick="accpage(event, 'email')">Email</button>
             <button class="tablinks" onclick="accpage(event, 'change_password')">Change Password</button>
             <button class="tablinks" onclick="accpage(event, 'view_events')">View Events</button>
           </div>
 
+          <!-- edit profile -->
           <div id="edit_profile" class="tabcontent">
             <div class="#user-details"></div>
             <h2>First name:
-            <input type="text" class="change_details" name="first_name"></h3>
+            <input type="text" class="change_details" name="first_name"></h2>
 
             <h2>Last name:
-            <input type="text" class="change_details" name="last_name"></h3>
+            <input type="text" class="change_details" name="last_name"></h2>
 
             <h2>Username:
-            <input type="text" class="change_details" name="guests"></h3>
+            <input type="text" class="change_details" name="guests"></h2>
 
             <h2>Email:
-            <input type="email" class="change_details" name="email"></h3>
+            <input type="email" class="change_details" name="email"></h2>
 
             <h2>Contact number:
-            <input type="text" class="change_details" name="contact"></h3>
+            <input type="text" class="change_details" name="contact"></h2>
 
             <h2>Home:
-            <input type="text" class="change_details" name="location"></h3>
+            <input type="text" class="change_details" name="location"></h2>
+
+            <!-- use getDetails script -->
 
             <script>getDetails();</script>
+            <!-- call updateDetails function when submit button is clicked, will trigger user information to be updated into the server -->
             <input type="submit" id="submit" value="Submit changes" onclick="updateDetails();">
             <br><br>
 
       </div>
 
+      <!-- send email -->
+      <div id="email" class="tabcontent">
+        <form action="https://formsubmit.co/kellyluc.1234@email.com" method="POST">
+          <!-- enter email address -->
+            <input type="hidden" name="_subject" value="New email!"><br>
+            <h2>Email Address:
+            <input type="email" name="_email" placeholder="Email Address" required><br></h2>
+            <input type="hidden" name="_next">
+            <!-- write a message -->
+            <h2>Write your message
+            <input type="text" name="message" placeholder="Write your message"><br></h2>
+            <!-- submit message -->
+            <button type="submit">Send</button>
+            </form>
+            <br>
+    </div>
+
+    <!-- change password -->
       <div id="change_password" class="tabcontent">
+
         <div class="#user-details"></div>
+        <!-- user must input their old password and the new password twice successfully for the password to be changed -->
         <h2>Old Password:
-        <input type="text" class="change_details" name="old_password"></h3>
+        <input type="text" class="change_details" name="old_password"></h2>
 
         <h2>New Password:
-        <input type="text" class="change_details" name="new_password"></h3>
+        <input type="text" class="change_details" name="new_password"></h2>
 
         <h2>Confirm New Password:
-        <input type="text" class="change_details" name="new_password"></h3>
+        <input type="text" class="change_details" name="new_password"></h2>
 
+          <!-- when button is clicked, change passwords using the function that is triggered when submit button clicked-->
         <input type="submit" id="submitPass" value="Submit changes" onclick="updatePassword();">
             <br><br>
       </div>
 
+      <!-- view the user's events -->
       <div id="view_events" class="tabcontent">
-
       </div>
+
     </div>
     </body>
 </html>

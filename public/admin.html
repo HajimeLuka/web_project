@@ -8,83 +8,100 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%20Condensed">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&display=swap">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-        <script src="event.js" defer></script>
+        <script src="/javascripts/event.js" defer></script>
+        <script src="/javascripts/page.js"></script>
 
     </head>
 
     <body>
+        <!-- task bar -->
         <div class="top-taskbar2">
-            <a href="/"><img alt src="/images/home_button2.png" id="home_btn"/></a>
-            <a href="accpage.html"><img alt src="/images/account2.png" id="acc_btn"/></a>
+            <!-- logout button -->
+            <!-- when the logout button is clicked, it will take the user to the login page -->
+            <img alt src="/images/logout2.png" id="logout_btn2" onclick="logout()"/>
             <div id="title2">ADMIN PAGE</div>
             </div>
 
 
         <div class="userinfo">
         <div class="tab2">
-            <button class="tablinks" onclick="adminpage(event, 'edit_profile')" id="defaultOpen">Edit user's profile</button>
+            <!-- 4 sidebars: prems, edit user's profile, change user's passward and view user's events -->
+            <!-- when the user loads up the admin page, the default starting tab will be on perms -->
+            <!-- a different div display will appear when a different tab is clicked -->
+            <button class="tablinks" onclick="adminpage(event, 'perms')" id="defaultOpen">Perms</button>
+            <button class="tablinks" onclick="adminpage(event, 'edit_profile')">Edit user's profile</button>
             <button class="tablinks" onclick="adminpage(event, 'change_password')">Change user's password</button>
             <button class="tablinks" onclick="adminpage(event, 'view_events')">View User's Events</button>
           </div>
 
+          <!-- edit profile div display -->
           <div id="edit_profile" class="tabcontent2">
                 <div class="#user-details"></div>
+                <!-- input types if user want to edit a user's ID, username, first name, last name, email or contact number -->
+                <h2>Enter User ID:
+                    <input type="text" class="change_details" name="change_username"></h2>
 
                 <h2>Enter Username:
-                    <input type="text" class="change_details" name="change_username"></h3>
+                    <input type="text" class="change_details" name="change_username"></h2>
 
                 <h2>First name:
-                <input type="text" class="change_details" name="first_name"></h3>
+                <input type="text" class="change_details" name="first_name"></h2>
 
                 <h2>Last name:
-                <input type="text" class="change_details" name="last_name"></h3>
-
-                <h2>Username:
-                <input type="text" class="change_details" name="guests"></h3>
+                <input type="text" class="change_details" name="last_name"></h2>
 
                 <h2>Email:
-                <input type="email" class="change_details" name="email"></h3>
+                <input type="email" class="change_details" name="email"></h2>
 
                 <h2>Contact number:
-                <input type="text" class="change_details" name="contact"></h3>
+                <input type="text" class="change_details" name="contact"></h2>
 
-                <h2>Home:
-                <input type="text" class="change_details" name="location"></h3>
-
-                <input type="submit" id="submit2" value="Submit changes">
+                    <!-- when the submit button is clicked, the details will be undated in the database -->
+                <input type="submit" class="submit2" value="Submit changes" onclick="updateDetailsAdmin()">
                 <br><br>
           </div>
 
+          <!-- perms div display -->
+          <div id="perms" class="tabcontent2">
+            <!-- Input a user's ID -->
+              <h2>User ID:
+              <input type="text" class="userID" name="user_ID"></h2>
+              <!-- if the admin decides to give the user perms, they can click the ok! button -->
+            <h2>Give Permision: <button onclick="givePerms()">OK!</button></h2><br><br><br><br><br><br><br>
+          </div>
+
+            <!-- change user's password display -->
           <div id="change_password" class="tabcontent2">
             <div class="#user-details"></div>
-            <h2>Enter Username:
-            <input type="text" class="change_details" name="username"></h3>
-
+            <!-- input the user's ID, new password and also type the new password again -->
+            <h2>Enter User ID:
+            <input type="text" class="change_details" name="user_ID"></h2>
             <h2>New Password:
-            <input type="text" class="change_details" name="new_password"></h3>
+            <input type="text" class="change_details" name="new_password"></h2>
 
             <h2>Confirm New Password:
-            <input type="text" class="change_details" name="new_password"></h3>
-
-            <input type="submit" id="submit2" value="Submit changes">
-                <br><br>
+            <input type="text" class="change_details" name="new_password2"></h2>
+                <!-- submit button will update the user's password -->
+            <input type="submit" class="submit2" value="Submit changes" onclick="changePass()">
+                <br><br><br>
 
           </div>
 
-
+          <!-- view events div display -->
+          <!-- admin can view and change the details of a user's event -->
           <div id="view_events" class="tabcontent2">
             <h2>Change event Name:
-                <input type="text" class="change_details" name="change_name_event"></h3>
+                <input type="text" class="change_details" name="change_name_event"></h2>
             <h2>Change number of guests:
-                <input type="text" class="change_details" name="change_guest_event"></h3>
+                <input type="text" class="change_details" name="change_guest_event"></h2>
             <h2>Change Date:
-                <input type="date" class="change_details" name="change_date_event"></h3>
+                <input type="date" class="change_details" name="change_date_event"></h2>
             <h2>Change event Time:
-                <input type="time" class="change_details" name="change_time_event"></h3>
+                <input type="time" class="change_details" name="change_time_event"></h2>
             <h2>Change Location:
-                <input type="text" class="change_details" name="change_location_event"></h3>
+                <input type="text" class="change_details" name="change_location_event"></h2>
 
-                <h2 for="change_details">Change Category:
+                <h2>Change Category:
                 <select class="event_details" name="Change_Category">
                 <option value="Birthday">Birthday</option>
                 <option value="Work">Work</option>
@@ -97,12 +114,13 @@
                 </select></h2>
 
             <h2>Change Colour Theme:
-                <input type="color" class="change_details" name="change_color_event"></h3>
+                <input type="color" class="change_details" name="change_color_event"></h2>
 
-
+                <!-- if any changes are made by typing into the input types, pressing the submit button will update this for the user in the database -->
             <input type="submit" id="submit2" value="Submit changes">
                 <br><br>
 
           </div>
         </div>
         </body>
+        </html>

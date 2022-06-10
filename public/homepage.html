@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Home Page</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="stylesheets/style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic%20SC">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%20Condensed">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&display=swap">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="/javascripts/page.js"></script>
+    </head>
+    <!-- call function that scrolls through images -->
+
+    <body onload="background();">
+        <div class="top-taskbar">
+            <a href="/homepage.html"><img alt src="/images/home_button.png" id="home_btn"/></a>
+            <a href="accpage.html"><img alt src="/images/account.png" id="acc_btn"/></a>
+            <img alt src="/images/logout.png" id="logout_btn" onclick="logout()"/>
+            <div id="title">EVENT PLANNER</div>
+        </div>
+        <!-- main div of the page that displays changing images and a button that takes users to the main page -->
+
+        <div id="home_event">
+            <div class="pictures">
+                <img alt src="/images/1.png">
+            </div>
+            <div class="pictures">
+                <img alt src="/images/2.png">
+            </div>
+            <div class="pictures">
+            <img alt src="/images/3.png">
+                        <!-- direct user to mainpage.html -->
+
+            </div>
+            <button id="home_event_sub" onclick="location.href = 'mainpage.html'">Create an event now!</button>
+        </div>
+        <!-- function that goes through images -->
+
+        <script>
+            let index = 0;
+            function background() {
+              let i;
+              let pics = document.getElementsByClassName("pictures");
+              for (i = 0; i < pics.length; i++) {
+                pics[i].style.display = "none";
+              }
+              index++;
+              if (index > pics.length) {index = 1}
+              pics[index-1].style.display = "block";
+              setTimeout(background, 5000);
+            }
+        </script>
+    </body>
+
+</html>
